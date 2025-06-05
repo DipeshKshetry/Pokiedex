@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pokiedex - Printing</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1 class="title-effect">Printing</h1>
+  </header>
+
+  <main>
+    <button onclick="location.href='index.html'" class="back-button">⬅ Back to Home</button>
+    <section class="printing-section">
+      <h2>Custom Prints on T-Shirts, Mugs & More</h2>
+      <p>Upload your design, preview it on our products, and place your order!</p>
+
+      <div class="product-preview">
+        <img id="tshirt-preview" src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=400&q=80" alt="T-Shirt Preview" />
+        <canvas id="design-canvas" style="display:none;"></canvas>
+      </div>
+
+      <form id="order-form">
+        <label for="design-upload">Upload your design (PNG/JPEG):</label><br/>
+        <input type="file" id="design-upload" accept="image/png, image/jpeg" required /><br/>
+
+        <label for="name">Full Name:</label><br/>
+        <input type="text" id="name" name="name" required /><br/>
+
+        <label for="email">Email:</label><br/>
+        <input type="email" id="email" name="email" required /><br/>
+
+        <label for="phone">Phone Number:</label><br/>
+        <input type="tel" id="phone" name="phone" required /><br/>
+
+        <label for="address">Shipping Address:</label><br/>
+        <textarea id="address" name="address" rows="3" required></textarea><br/>
+
+        <label for="product">Select Product:</label><br/>
+        <select id="product" name="product" required>
+          <option value="tshirt">T-Shirt</option>
+          <option value="mug">Mug</option>
+          <option value="hoodie">Hoodie</option>
+        </select><br/>
+
+        <button type="submit" class="store-button">Place Order</button>
+      </form>
+      <p id="form-message"></p>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Pokiedex. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const designUpload = document.getElementById('design-upload');
+    const tshirtPreview = document.getElementById('tshirt-preview');
+    const form = document.getElementById('order-form');
+    const formMessage = document.getElementById('form-message');
+
+    designUpload.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        tshirtPreview.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // Here you should implement payment gateway integration before submitting.
+      // For now, simulate payment success, then send form data.
+
+      // Collect form data
+      const formData = new FormData(form);
+
+      // Simulate payment success
+      alert('Payment successful! Your order is being submitted.');
+
+      // Prepare data for email sending or backend (this requires server-side support)
+      // For demo, just display confirmation message
+      formMessage.textContent = "Thank you for your order! We will contact you shortly.";
+
+      // Clear form
+      form.reset();
+
+      // Reset preview to default image
+      tshirtPreview.src = 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=400&q=80';
+    });
+  </script>
+</body>
+</html>
