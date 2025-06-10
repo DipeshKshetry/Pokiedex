@@ -1,11 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
-import Home from './src/Home';
-import About from './src/About';
-import Clothing from './src/Clothing';
-import Toys from './src/Toys';
-import Futsal from './src/Futsal';
-import Printing from './src/Printing';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import Home from './Home';
+import About from './About';
+import Clothing from './Clothing';
+import Toys from './Toys';
+import Futsal from './Futsal';
+import Printing from './Printing';
+import './App.css';
 
 function BackButton() {
   const navigate = useNavigate();
