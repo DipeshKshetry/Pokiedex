@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokiedex - Your One-Stop Shop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 5px rgba(255,255,255,0.5)); }
+            to { filter: drop-shadow(0 0 20px rgba(255,255,255,0.8)); }
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+        }
+
+        .page {
+            display: none;
+            min-height: calc(100vh - 80px);
+            padding: 2rem;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 4rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="25" cy="25" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="3" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="1.5" fill="rgba(255,255,255,0.1)"/></svg>');
+            animation: float 10s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: slideInUp 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            animation: slideInUp 1s ease-out 0.2s both;
+        }
+
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            animation: slideInUp 1s ease-out 0.4s both;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        /* Services Grid */
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .service-card:hover::before {
+            left: 100%;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        /* Form Styles */
+        .form-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e1e1e1;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* File Upload Styles */
+        .file-upload {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-upload input[type=file] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-upload-label {
+            display: block;
+            padding: 2rem;
+            background: #f8f9fa;
+            border: 2px dashed #667eea;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload-label:hover {
+            background: #e3f2fd;
+            border-color: #4ecdc4;
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #999;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        /* T-shirt Designer */
+        .tshirt-designer {
+            display: flex;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .tshirt-preview {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .tshirt-canvas {
+            width: 100%;
+            max-width: 400px;
+            height: 500px;
+            background: #f0f0f0;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .tshirt-base {
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            position: relative;
+            border-radius: 15px;
+        }
+
+        .design-overlay {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: 60%;
+            max-height: 40%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        /* Coming Soon Styles */
+        .coming-soon {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%);
+            color: white;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+
+        .coming-soon h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Payment Integration */
+        .payment-section {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .services {
+                grid-template-columns: 1fr;
+            }
+            
+            .tshirt-designer {
+                flex-direction: column;
+            }
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: block;
+            }
+        }
+
+        /* Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Pokiedex</div>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showPage('home')">Home</a></li>
+                <li><a href="#" onclick="showPage('about')">About Us</a></li>
+                <li><a href="#" onclick="showPage('clothing')">Clothing</a></li>
+                <li><a href="#" onclick="showPage('toys')">Toys</a></li>
+                <li><a href="#" onclick="showPage('futsal')">Futsal</a></li>
+                <li><a href="#" onclick="showPage('printing')">Printing</a></li>
+            </ul>
+            <div class="mobile-menu" onclick="toggleMobileMenu()">☰</div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- HOME PAGE -->
+        <div id="home" class="page active">
+            <section class="hero">
+                <h1>Welcome to Pokiedex</h1>
+                <p>Your one-stop destination for clothing, toys, printing services, and more!</p>
+                <a href="#" class="cta-button" onclick="showPage('about')">Discover More</a>
+            </section>
+
+            <section class="services animate-on-scroll">
+                <div class="service-card" onclick="showPage('clothing')">
+                    <span class="service-icon">👕</span>
+                    <h3>Premium Clothing</h3>
+                    <p>Discover our collection of high-quality clothing for all ages and styles.</p>
+                </div>
+                <div class="service-card" onclick="showPage('toys')">
+                    <span class="service-icon">🎮</span>
+                    <h3>Amazing Toys</h3>
+                    <p>Fun and educational toys that bring joy to children and adults alike.</p>
+                </div>
+                <div class="service-card" onclick="showPage('futsal')">
+                    <span class="service-icon">⚽</span>
+                    <h3>Futsal Arena</h3>
+                    <p>Professional futsal facilities and equipment - Coming Soon!</p>
+                </div>
+                <div class="service-card" onclick="showPage('printing')">
+                    <span class="service-icon">🖨️</span>
+                    <h3>Custom Printing</h3>
+                    <p>Personalized printing on t-shirts, mugs, and other items with your designs.</p>
+                </div>
+            </section>
+        </div>
+
+        <!-- ABOUT US PAGE -->
+        <div id="about" class="page">
+            <section class="hero">
+                <h1>About Pokiedex</h1>
+                <p>Learn more about our mission and values</p>
+            </section>
+            
+            <div class="form-container">
+                <h2>Our Story</h2>
+                <p>Welcome to Pokiedex - your premier destination for quality products and services. We are passionate about providing exceptional customer experiences across all our offerings.</p>
+                
+                <h3>What We Offer:</h3>
+                <ul style="margin: 1rem 0; padding-left: 2rem;">
+                    <li>Premium clothing collections</li>
+                    <li>Innovative toys and games</li>
+                    <li>Professional printing services</li>
+                    <li>Upcoming futsal facilities</li>
+                </ul>
+                
+                <h3>Contact Information</h3>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <p>info@pokiedex.com</p>
+                </div>
+                <div class="form-group">
+                    <label>Phone:</label>
+                    <p>+1 (555) 123-4567</p>
+                </div>
+                <div class="form-group">
+                    <label>Address:</label>
+                    <p>123 Business Street, City, Country</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CLOTHING PAGE -->
+        <div id="clothing" class="page">
+            <section class="hero">
+                <h1>Premium Clothing Collection</h1>
+                <p>Discover fashion that fits your style</p>
+            </section>
+
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-image">👕</div>
+                    <div class="product-info">
+                        <h3>Premium T-Shirts</h3>
+                        <p>High-quality cotton t-shirts in various colors and sizes.</p>
+                        <p><strong>Price: $25.99</strong></p>
+                        <button onclick="addToCart('tshirt')">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">👖</div>
+                    <div class="product-info">
+                        <h3>Designer Jeans</h3>
+                        <p>Comfortable and stylish jeans for everyday wear.</p>
+                        <p><strong>Price: $59.99</strong></p>
+                        <button onclick="addToCart('jeans')">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">👗</div>
+                    <div class="product-info">
+                        <h3>Elegant Dresses</h3>
+                        <p>Beautiful dresses for special occasions and casual wear.</p>
+                        <p><strong>Price: $79.99</strong></p>
+                        <button onclick="addToCart('dress')">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">🧥</div>
+                    <div class="product-info">
+                        <h3>Winter Jackets</h3>
+                        <p>Warm and fashionable jackets for cold weather.</p>
+                        <p><strong>Price: $129.99</strong></p>
+                        <button onclick="addToCart('jacket')">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-container">
+                <h3>Upload Your Photos</h3>
+                <div class="file-upload">
+                    <input type="file" id="clothingPhotos" multiple accept="image/*" onchange="handleFileUpload(this, 'clothing')">
+                    <label for="clothingPhotos" class="file-upload-label">
+                        📸 Click to upload clothing photos<br>
+                        <small>Drag and drop or click to select multiple images</small>
+                    </label>
+                </div>
+                <div id="clothingPreview" class="photo-preview"></div>
+            </div>
+        </div>
+
+        <!-- TOYS PAGE -->
+        <div id="toys" class="page">
+            <section class="hero">
+                <h1>Amazing Toys Collection</h1>
+                <p>Fun and educational toys for all ages</p>
+            </section>
+
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-image">🧸</div>
+                    <div class="product-info">
+                        <h3>Plush Toys</h3>
+                        <p>Soft and cuddly plush toys perfect for children.</p>
+                        <p><strong>Price: $19.99</strong></p>
+                        <button onclick="addToCart('plush')">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">🎲</div>
+                    <div class="product-info">
+                        <h3>Board Games</h3>
+                        <p>Educational and entertaining board games for family fun.</p>
+                        <p><strong>Price: $34.99</strong></p>
+                        <button onclick="addToCart('boardgame')">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">🚗</div>
+                    <div class="product-info">
+                        <h3>Remote Control Cars</h3>
+                        <p>High-speed RC cars with advanced controls.</p>
+                        <p><strong>Price: $89.99</strong></p>
+                        <button onclick="addToCart('rccar')">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">🧩</div>
+                    <div class="product-info">
+                        <h3>Puzzle Sets</h3>
+                        <p>Challenging puzzles that develop problem-solving skills.</p>
+                        <p><strong>Price: $24.99</strong></p>
+                        <button onclick="addToCart('puzzle')">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-container">
+                <h3>Upload Toy Photos</h3>
+                <div class="file-upload">
+                    <input type="file" id="toyPhotos" multiple accept="image/*" onchange="handleFileUpload(this, 'toys')">
+                    <label for="toyPhotos" class="file-upload-label">
+                        📸 Click to upload toy photos<br>
+                        <small>Drag and drop or click to select multiple images</small>
+                    </label>
+                </div>
+                <div id="toyPreview" class="photo-preview"></div>
+            </div>
+        </div>
+
+        <!-- FUTSAL PAGE -->
+        <div id="futsal" class="page">
+            <section class="coming-soon">
+                <h2>COMING SOON</h2>
+                <p>🚧 Our amazing futsal facilities are under construction! 🚧</p>
+                <p>Stay tuned for updates on our professional futsal arena, equipment rental, and training programs.</p>
+                
+                <div class="form-container" style="margin-top: 2rem;">
+                    <h3>Get Notified When We Launch</h3>
+                    <form onsubmit="subscribeFutsal(event)">
+                        <div class="form-group">
+                            <label for="futsalEmail">Email Address:</label>
+                            <input type="email" id="futsalEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="futsalName">Your Name:</label>
+                            <input type="text" id="futsalName" required>
+                        </div>
+                        <button type="submit">Notify Me</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+
+        <!-- PRINTING PAGE -->
+        <div id="printing" class="page">
+            <section class="hero">
+                <h1>Custom Printing Services</h1>
+                <p>Bring your designs to life on t-shirts, mugs, and more!</p>
+            </section>
+
+            <div class="tshirt-designer">
+                <div class="tshirt-preview">
+                    <h3>Design Preview</h3>
+                    <div class="tshirt-canvas">
+                        <div class="tshirt-base">
+                            <img id="designPreview" class="design-overlay" style="display: none;" alt="Your Design">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-container" style="flex: 1;">
+                    <h3>Create Your Custom Print</h3>
+                    <form id="printingForm" onsubmit="submitPrintOrder(event)">
+                        <div class="form-group">
+                            <label>Product Type:</label>
+                            <select id="productType" onchange="updatePreview()">
+                                <option value="tshirt">T-Shirt - $25.99</option>
+                                <option value="mug">Coffee Mug - $15.99</option>
+                                <option value="hoodie">Hoodie - $45.99</option>
+                                <option value="poster">Poster - $12.99</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Upload Your Design:</label>
+                            <div class="file-upload">
+                                <input type="file" id="designFile" accept="image/*" onchange="previewDesign(this)" required>
+                                <label for="designFile" class="file-upload-label">
+                                    🎨 Click to upload your design<br>
+                                    <small>PNG, JPG, or SVG files accepted</small>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>T-Shirt Color:</label>
+                            <select id="tshirtColor" onchange="updateTshirtColor()">
+                                <option value="#ffffff">White</option>
+                                <option value="#000000">Black</option>
+                                <option value="#ff0000">Red</option>
+                                <option value="#0000ff">Blue</option>
+                                <option value="#008000">Green</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Size:</label>
+                            <select id="size">
+                                <option value="S">Small</option>
+                                <option value="M">Medium</option>
+                                <option value="L">Large</option>
+                                <option value="XL">Extra Large</option>
+                                <option value="XXL">XXL</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Quantity:</label>
+                            <input type="number" id="quantity" min="1" value="1" onchange="updatePrice()">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Total Price:</label>
+                            <div id="totalPrice" style="font-size: 1.2rem; font-weight: bold; color: #667eea;">$25.99</div>
+                        </div>
+
+                        <h4>Personal Details</h4>
+                        <div class="form-group">
+                            <label>Full Name:</label>
+                            <input type="text" id="customerName" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email:</label>
+                            <input type="email" id="customerEmail" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Phone Number:</label>
+                            <input type="tel" id="customerPhone" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Shipping Address:</label>
+                            <textarea id="customerAddress" rows="3" required></textarea>
+                        </div>
+
+                        <div class="payment-section">
+                            <h4>Payment Information</h4>
+                            <p>⚠️ Payment is required before design processing begins.</p>
+                            <div class="form-group">
+                                <label>Payment Method:</label>
+                                <select id="paymentMethod">
+                                    <option value="paypal">PayPal</option>
+                                    <option value="stripe">Credit Card (Stripe)</option>
+                                    <option value="bank">Bank Transfer</option>
+                                </select>
+                            </div>
+                            <button type="button" onclick="processPayment()" style="background: #28a745;">Process Payment</button>
+                        </div>
+
+                        <button type="submit" id="submitOrder" disabled style="background: #6c757d;">Submit Order (Payment Required)</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Pokiedx. All rights reserved. | Designed with ❤️ for your business success</p>
+    </footer>
+
+    <script>
+        // Global variables
+        let currentPage = 'home';
+        let cart = [];
+        let paymentCompleted = false;
+
+        // Page navigation
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            currentPage = pageId;
+            
+            // Trigger animations
+            setTimeout(() => {
+                animateOnScroll();
+            }, 100);
+        }
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        // Animation on scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.animate-on-scroll');
+            elements.forEach(element => {
+                element.classList.add('animated');
+            });
+        }
+
+        // File upload handler
+        function handleFileUpload(input, category) {
+            const files = input.files;
+            const previewDiv = document.getElementById(category + 'Preview');
+            previewDiv.innerHTML = '';
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.width = '150px';
