@@ -1,0 +1,26 @@
+body {
+  background: #f0f4f8;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+a {
+  text-decoration: none;
+  color: #0077ff;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  background-color: #0077ff;
+  border: none;
+  color: white;
+  border-radius: 4px;
+}
+
+button:hover {
+  background-color: #005bbb;
+}
