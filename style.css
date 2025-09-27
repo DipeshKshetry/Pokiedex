@@ -1,66 +1,90 @@
-/* General Reset */
+/* Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Arial', sans-serif;
+  font-family: 'Segoe UI', Arial, sans-serif;
 }
 
 body {
-  background: linear-gradient(135deg, #4facfe, #00f2fe);
-  color: #fff;
-  text-align: center;
+  background: #f5f7fa;
+  color: #333;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
+/* Header */
 header {
-  padding: 2rem 1rem;
-  background: rgba(0,0,0,0.3);
-  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: #007bff;
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-header h1 {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
+.logo {
+  font-size: 2rem;
+  font-weight: bold;
 }
 
-header p {
-  font-size: 1.2rem;
-  opacity: 0.9;
+.logo span {
+  color: yellow;
 }
 
-/* Games Grid */
+#search {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  width: 200px;
+}
+
+/* Game Grid */
 .games-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1.5rem;
   padding: 2rem;
   flex: 1;
 }
 
 .game-card {
-  background: rgba(255,255,255,0.15);
-  padding: 2rem;
-  border-radius: 15px;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
   text-decoration: none;
-  color: #fff;
-  font-weight: bold;
+  color: #333;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.game-card img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+}
+
+.game-card h3 {
+  padding: 1rem;
   font-size: 1.1rem;
-  transition: transform 0.2s ease, background 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
 .game-card:hover {
-  transform: translateY(-8px) scale(1.05);
-  background: rgba(255,255,255,0.3);
-  color: #000;
+  transform: translateY(-8px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
 
 /* Footer */
 footer {
-  background: rgba(0,0,0,0.3);
+  background: #007bff;
+  color: #fff;
+  text-align: center;
   padding: 1rem;
   font-size: 0.9rem;
 }

@@ -3,32 +3,79 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🎮 My Game Hub</title>
+  <title>Pokiedex.com - Play Free Games</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Header -->
   <header>
-    <h1>🎮 Welcome to My Game Hub</h1>
-    <p>Play 10 fun HTML5 games right in your browser!</p>
+    <div class="logo">Pokiedex<span>.com</span></div>
+    <input type="text" id="search" placeholder="Search games...">
   </header>
 
+  <!-- Game Grid -->
   <main>
-    <section class="games-grid">
-      <a href="games/game1/index.html" class="game-card">Click the Box</a>
-      <a href="games/game2/index.html" class="game-card">Catch the Ball</a>
-      <a href="games/game3/index.html" class="game-card">Avoid the Enemies</a>
-      <a href="games/game4/index.html" class="game-card">Memory Match</a>
-      <a href="games/game5/index.html" class="game-card">Rock Paper Scissors</a>
-      <a href="games/game6/index.html" class="game-card">Snake</a>
-      <a href="games/game7/index.html" class="game-card">Tic Tac Toe</a>
-      <a href="games/game8/index.html" class="game-card">Whack-a-Mole</a>
-      <a href="games/game9/index.html" class="game-card">Typing Challenge</a>
-      <a href="games/game10/index.html" class="game-card">Number Guessing</a>
+    <section class="games-grid" id="games">
+      <a href="games/game1/index.html" class="game-card">
+        <img src="images/game1.jpg" alt="Click the Box">
+        <h3>Click the Box</h3>
+      </a>
+      <a href="games/game2/index.html" class="game-card">
+        <img src="images/game2.jpg" alt="Catch the Ball">
+        <h3>Catch the Ball</h3>
+      </a>
+      <a href="games/game3/index.html" class="game-card">
+        <img src="images/game3.jpg" alt="Avoid the Enemies">
+        <h3>Avoid the Enemies</h3>
+      </a>
+      <a href="games/game4/index.html" class="game-card">
+        <img src="images/game4.jpg" alt="Memory Match">
+        <h3>Memory Match</h3>
+      </a>
+      <a href="games/game5/index.html" class="game-card">
+        <img src="images/game5.jpg" alt="Rock Paper Scissors">
+        <h3>Rock Paper Scissors</h3>
+      </a>
+      <a href="games/game6/index.html" class="game-card">
+        <img src="images/game6.jpg" alt="Snake">
+        <h3>Snake</h3>
+      </a>
+      <a href="games/game7/index.html" class="game-card">
+        <img src="images/game7.jpg" alt="Tic Tac Toe">
+        <h3>Tic Tac Toe</h3>
+      </a>
+      <a href="games/game8/index.html" class="game-card">
+        <img src="images/game8.jpg" alt="Whack-a-Mole">
+        <h3>Whack-a-Mole</h3>
+      </a>
+      <a href="games/game9/index.html" class="game-card">
+        <img src="images/game9.jpg" alt="Typing Challenge">
+        <h3>Typing Challenge</h3>
+      </a>
+      <a href="games/game10/index.html" class="game-card">
+        <img src="images/game10.jpg" alt="Number Guessing">
+        <h3>Number Guessing</h3>
+      </a>
     </section>
   </main>
 
+  <!-- Footer -->
   <footer>
-    <p>&copy; 2025 My Game Hub | Built with ❤️</p>
+    <p>&copy; 2025 Pokiedex.com | Play Free Games Online</p>
   </footer>
+
+  <!-- Script for Search -->
+  <script>
+    const searchInput = document.getElementById('search');
+    const games = document.querySelectorAll('.game-card');
+
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.toLowerCase();
+      games.forEach(game => {
+        const title = game.querySelector('h3').textContent.toLowerCase();
+        game.style.display = title.includes(query) ? 'block' : 'none';
+      });
+    });
+  </script>
 </body>
 </html>
