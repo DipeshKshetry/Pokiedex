@@ -1,0 +1,4 @@
+body { background:#222; color:#fff; text-align:center; }
+#game-area { width:600px; height:400px; margin:20px auto; background:#333; position:relative; overflow:hidden; }
+#paddle { width:100px; height:20px; background:blue; position:absolute; bottom:0; left:250px; }
+#ball { width:20px; height:20px; background:red; border-radius:50%; position:absolute; top:0; left:300px; }
